@@ -151,39 +151,39 @@ function fixSave() {
 		}
 	}
 }
-// function fixData(defaultData, newData) {
-// 	for (item in defaultData) {
-// 		if (defaultData[item] == null) {
-// 			if (newData[item] === undefined)
-// 				newData[item] = null;
-// 		}
-// 		else if (Array.isArray(defaultData[item])) {
-// 			if (newData[item] === undefined)
-// 				newData[item] = defaultData[item];
+function fixData(defaultData, newData) {
+	for (item in defaultData) {
+		if (defaultData[item] == null) {
+			if (newData[item] === undefined)
+				newData[item] = null;
+		}
+		else if (Array.isArray(defaultData[item])) {
+			if (newData[item] === undefined)
+				newData[item] = defaultData[item];
 
-// 			else
-// 				fixData(defaultData[item], newData[item]);
-// 		}
-// 		else if (defaultData[item] instanceof Decimal) { // Convert to Decimal
-// 			if (newData[item] === undefined)
-// 				newData[item] = defaultData[item];
+			else
+				fixData(defaultData[item], newData[item]);
+		}
+		else if (defaultData[item] instanceof Decimal) { // Convert to Decimal
+			if (newData[item] === undefined)
+				newData[item] = defaultData[item];
 
-// 			else
-// 				newData[item] = new Decimal(newData[item]);
-// 		}
-// 		else if ((!!defaultData[item]) && (typeof defaultData[item] === "object")) {
-// 			if (newData[item] === undefined || (typeof defaultData[item] !== "object"))
-// 				newData[item] = defaultData[item];
+			else
+				newData[item] = new Decimal(newData[item]);
+		}
+		else if ((!!defaultData[item]) && (typeof defaultData[item] === "object")) {
+			if (newData[item] === undefined || (typeof defaultData[item] !== "object"))
+				newData[item] = defaultData[item];
 
-// 			else
-// 				fixData(defaultData[item], newData[item]);
-// 		}
-// 		else {
-// 			if (newData[item] === undefined)
-// 				newData[item] = defaultData[item];
-// 		}
-// 	}
-// }
+			else
+				fixData(defaultData[item], newData[item]);
+		}
+		else {
+			if (newData[item] === undefined)
+				newData[item] = defaultData[item];
+		}
+	}
+}
 function load() {
 	let get = localStorage.getItem(modInfo.id);
 

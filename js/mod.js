@@ -2,8 +2,8 @@ let modInfo = {
 	name: "Idle vs. zombies",
 	id: "ivz",
 	author: "shedarshian",
-	pointsName: "sun",
-	modFiles: ["tree.js", "layers/day.js", "data/helper.js", "data/data.js", "data/plant.js", "data/card.js"],
+	pointsName: "points",
+	modFiles: ["tree.js", "layers/day.js", "data/helper.js", "data/data.js"],
 	discordName: "",
 	discordLink: "",
 	initialStartPoints: new Decimal (10), // Used for hard resets and new players
@@ -41,16 +41,6 @@ function getPointGen() {
 		return new Decimal(0)
 
 	let gain = new Decimal(1)
-	for (let i = 1; i < 6; i++) {
-		for (let j = 1; j < 10; j++) {
-			p = getGridData("l", i * 100 + j)
-			for (var i2 = 0; i2 < p.plants.length; i2++)
-				var pl = p[i2]
-				if (pl !== undefined && pl.name == "plantSunflower" && pl.cycleTime.lte(2)) {
-					gain = gain.plus(pl.sunGain.dividedBy(2))
-				}
-		}
-	}
 	return gain
 }
 
@@ -84,55 +74,56 @@ function maxTickLength() {
 // Use this if you need to undo inflation from an older version. If the version is older than the version that fixed the issue,
 // you can cap their current resources with this.
 function fixOldSave(oldVersion){
+
 }
 
-function fixData(defaultData, newData) {
-	if (Array.isArray(defaultData) && defaultData.length == 0) {
-		for (item in newData) {
-			var defaultObject = null
-			if (newData[item] === null) {}
-			else if (newData[item].type == "Plant")
-				defaultObject = Plant(newData[item].name, newData[item].level, newData[item].pos);
-			else if (newData[item].type == "Card")
-				defaultObject = Card(newData[item].name, newData[item].level, newData[item].pos);
-			else if (newData[item].type == "Bullet")
-				defaultObject = Bullet(newData[item].name, newData[item].level, newData[item].pos);
-			if (newData[item] === undefined)
-				newData[item] = defaultObject;
-			else if (defaultObject === null)
-				newData[item] = null;
-			else
-				fixData(defaultObject, newData[item]);
-		}
-	}
-	else for (item in defaultData) {
-		if (defaultData[item] == null) {
-			if (newData[item] === undefined)
-				newData[item] = null;
-		}
-		else if (Array.isArray(defaultData[item])) {
-			if (newData[item] === undefined)
-				newData[item] = defaultData[item];
-			else
-				fixData(defaultData[item], newData[item]);
-		}
-		else if (defaultData[item] instanceof Decimal) { // Convert to Decimal
-			if (newData[item] === undefined)
-				newData[item] = defaultData[item];
+// function fixData(defaultData, newData) {
+// 	if (Array.isArray(defaultData) && defaultData.length == 0) {
+// 		for (item in newData) {
+// 			var defaultObject = null
+// 			if (newData[item] === null) {}
+// 			else if (newData[item].type == "Plant")
+// 				defaultObject = Plant(newData[item].name, newData[item].level, newData[item].pos);
+// 			else if (newData[item].type == "Card")
+// 				defaultObject = Card(newData[item].name, newData[item].level, newData[item].pos);
+// 			else if (newData[item].type == "Bullet")
+// 				defaultObject = Bullet(newData[item].name, newData[item].level, newData[item].pos);
+// 			if (newData[item] === undefined)
+// 				newData[item] = defaultObject;
+// 			else if (defaultObject === null)
+// 				newData[item] = null;
+// 			else
+// 				fixData(defaultObject, newData[item]);
+// 		}
+// 	}
+// 	else for (item in defaultData) {
+// 		if (defaultData[item] == null) {
+// 			if (newData[item] === undefined)
+// 				newData[item] = null;
+// 		}
+// 		else if (Array.isArray(defaultData[item])) {
+// 			if (newData[item] === undefined)
+// 				newData[item] = defaultData[item];
+// 			else
+// 				fixData(defaultData[item], newData[item]);
+// 		}
+// 		else if (defaultData[item] instanceof Decimal) { // Convert to Decimal
+// 			if (newData[item] === undefined)
+// 				newData[item] = defaultData[item];
 
-			else
-				newData[item] = new Decimal(newData[item]);
-		}
-		else if ((!!defaultData[item]) && (typeof defaultData[item] === "object")) {
-			if (newData[item] === undefined || (typeof defaultData[item] !== "object"))
-				newData[item] = defaultData[item];
+// 			else
+// 				newData[item] = new Decimal(newData[item]);
+// 		}
+// 		else if ((!!defaultData[item]) && (typeof defaultData[item] === "object")) {
+// 			if (newData[item] === undefined || (typeof defaultData[item] !== "object"))
+// 				newData[item] = defaultData[item];
 
-			else
-				fixData(defaultData[item], newData[item]);
-		}
-		else {
-			if (newData[item] === undefined)
-				newData[item] = defaultData[item];
-		}
-	}
-}
+// 			else
+// 				fixData(defaultData[item], newData[item]);
+// 		}
+// 		else {
+// 			if (newData[item] === undefined)
+// 				newData[item] = defaultData[item];
+// 		}
+// 	}
+// }
