@@ -1,6 +1,6 @@
 let modInfo = {
-	name: "Idle vs. zombies",
-	id: "ivz",
+	name: "The Character Tree",
+	id: "char",
 	author: "shedarshian",
 	pointsName: "points",
 	modFiles: ["tree.js", "layers/day.js", "data/helper.js", "data/data.js"],
@@ -24,7 +24,7 @@ let winText = `Congratulations! You have reached the end and beaten this game, b
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
-var doNotCallTheseFunctionsEveryTick = ["blowUpEverything", "getName", "getPlantCD"]
+var doNotCallTheseFunctionsEveryTick = ["blowUpEverything", "getName"]
 
 function getStartPoints(){
     return new Decimal(modInfo.initialStartPoints)
