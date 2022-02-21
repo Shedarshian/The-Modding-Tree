@@ -3,10 +3,10 @@ let modInfo = {
 	id: "char",
 	author: "shedarshian",
 	pointsName: "points",
-	modFiles: ["tree.js", "layers/day.js", "data/helper.js", "data/data.js"],
+	modFiles: ["tree.js", "layers/click.js", "layers/poem.js", "data/helper.js", "data/data.js"],
 	discordName: "",
 	discordLink: "",
-	initialStartPoints: new Decimal (10), // Used for hard resets and new players
+	initialStartPoints: new Decimal (1), // Used for hard resets and new players
 	offlineLimit: 1,  // In hours
 }
 
@@ -24,7 +24,7 @@ let winText = `Congratulations! You have reached the end and beaten this game, b
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
-var doNotCallTheseFunctionsEveryTick = ["blowUpEverything", "getName"]
+var doNotCallTheseFunctionsEveryTick = ["blowUpEverything", "pause", "unpause"]
 
 function getStartPoints(){
     return new Decimal(modInfo.initialStartPoints)
@@ -32,7 +32,7 @@ function getStartPoints(){
 
 // Determines if it should show points/sec
 function canGenPoints(){
-	return true
+	return !player.pause;
 }
 
 // Calculate points/sec!
@@ -41,11 +41,22 @@ function getPointGen() {
 		return new Decimal(0)
 
 	let gain = new Decimal(1)
+	if (hasUpgrade('s', 11))
+		gain = gain.times(upgradeEffect('s', 11));
+	if (hasUpgrade('s', 12))
+		gain = gain.times(upgradeEffect('s', 12));
+	if (hasUpgrade('s', 14))
+		gain = gain.times(upgradeEffect('s', 14));
+	if (layerunlocked('p'))
+		gain = gain.times(layers.p.effect());
+	
+	gain = gain.times(buyableEffect('s', 11));
 	return gain
 }
 
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
 function addedPlayerData() { return {
+	pause: false
 }}
 
 // Display extra things at the top of the page
